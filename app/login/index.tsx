@@ -1,17 +1,27 @@
+import { router } from "expo-router";
 import { useState } from "react";
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Button, StyleSheet, Text, TextInput, View } from "react-native";
 import { useAuth } from "../../hooks/useAuth";
 
 export default function Login() {
+
   const { login } = useAuth();
   const [name, setName] = useState("");
+
+  function handleLogin() {
+    if (!name) return;
+
+    login(name);
+    router.replace("/");
+  }
 
   return (
     <View style={styles.container}>
 
-      <Text style={styles.title}>Digite seu nome</Text> 
-      {"\n"}
-     
+      <Text style={styles.title}>
+        Digite seu nome
+      </Text>
+
       <TextInput
         style={styles.input}
         placeholder="Seu nome"
@@ -19,63 +29,35 @@ export default function Login() {
         onChangeText={setName}
       />
 
-      <TouchableOpacity style={styles.button} onPress={() => login(name)}>
-        <Text style={styles.buttonText}>Entrar</Text>
-      </TouchableOpacity>
+      <Button
+        title="Entrar"
+        onPress={handleLogin}
+      />
 
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+
   container: {
     flex: 1,
-    backgroundColor: "#f2f2f2",
-    justifyContent: "center", // centraliza vertical
-    alignItems: "center", // centraliza horizontal
-    padding: 20
+    justifyContent: "center",
+    alignItems: "center",
   },
-
 
   title: {
-    fontSize: 28,
-    fontWeight: "bold",
-     marginBottom: 20,
-   
-    textAlign: "center"
-  },
-
-  subtitle: {
-    fontSize: 16,
-    color: "#555",
-    marginBottom: 30,
-    textAlign: "center"
+    fontSize: 22,
+    marginBottom: 20,
   },
 
   input: {
-  width: 300,
-  backgroundColor: "#fff",
-  padding: 15,
-  borderRadius: 10,
-  borderWidth: 1,
-  borderColor: "#ddd",
-  marginBottom: 20
-},
-
-
-  button: {
-  width: 300,
-  backgroundColor: "#4CAF50",
-  padding: 15,
-  borderRadius: 10,
-  alignItems: "center"
-},
-
-
-  buttonText: {
-    color: "#fff",
-    fontSize: 18,
-    fontWeight: "bold"
-  }
+    width: 250,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    padding: 10,
+    marginBottom: 20,
+    borderRadius: 8,
+  },
 
 });
